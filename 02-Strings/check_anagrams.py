@@ -1,16 +1,39 @@
 """Check whether two strings are anagrams."""
 
 
-def are_anagrams(first, second):
-    """Return True when both strings contain the same letters."""
-    first_normalized = "".join(
-        character.lower() for character in first if character.isalnum()
-    )
-    second_normalized = "".join(
-        character.lower() for character in second if character.isalnum()
-    )
+def clean_string(text):
+    """Remove spaces and punctuation, then convert letters to lowercase."""
+    cleaned_text = ""
 
-    return sorted(first_normalized) == sorted(second_normalized)
+    for character in text:
+        if character.isalnum():
+            cleaned_text += character.lower()
+
+    return cleaned_text
+
+
+def count_characters(text):
+    """Count how many times each character appears in a string."""
+    character_counts = {}
+
+    for character in text:
+        if character in character_counts:
+            character_counts[character] += 1
+        else:
+            character_counts[character] = 1
+
+    return character_counts
+
+
+def are_anagrams(first, second):
+    """Return True when both strings contain the same characters."""
+    first_cleaned = clean_string(first)
+    second_cleaned = clean_string(second)
+
+    first_counts = count_characters(first_cleaned)
+    second_counts = count_characters(second_cleaned)
+
+    return first_counts == second_counts
 
 
 examples = [
